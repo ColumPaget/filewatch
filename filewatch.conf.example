@@ -1,0 +1,54 @@
+#ruleset if someone tries to modify an exectuable file
+ruleset modify-executable
+{
+syslog:crit "executable file was modified path=$(path) by $(user)@$(ip) $(prog)"
+log "$(path) $(user)@$(ip) $(prog)" logfile=/var/log/filewatch-exe.log
+}
+
+#ruleset if a file in modified in /etc
+ruleset modify-etc
+{
+syslog:crit "file in /etc was modified path=$(path) by $(user)@$(ip) $(prog)"
+log "$(path) $(user)@$(ip) $(prog)" logfile=/var/log/filewatch-etc.log
+}
+
+
+ruleset pps
+{
+ignore prog=make,gcc
+
+log "too many file modification per second by program: $(prog) pid: $(pid) user: $(user) ip: $(ip)" logfile=/var/log/filewatch-ppm.log
+freeze
+}
+
+
+ruleset modified
+{
+log "$(path)" logfile=/var/log/progfiles/$(prog).log
+call modify-etc path=/etc/* modify
+call modify-executable modify executable
+
+log "late night file modification $(path) $(user)@$(ip) $(prog)" time=2?:??:??,0[0-6]:??:?? logfile=/var/log/filewatch-latenight.log
+log "$(path)" close logfile=/var/log/filewatch-modified.log
+
+#if more than 10 files are changed by second for a process call 'pps'
+call pps pid-per-sec=10
+
+#update a change log in xattr
+xachangelog
+
+#set an md5 checksum in xattr when a file is closed and has been modified
+md5 close
+}
+
+
+#ignore certain paths that see a lot fo activity
+ignore path=/var/log/*,/var/locks/*,/var/run/*,/opt/dominion/log/*,/tmp/*,/var/log.*,/var/state/*/*
+
+# log files with certain 'suspect' extensions
+log "suspect extension $(path) $(user)@$(ip) $(prog)" path=*.enc,.ecc,*.ezz,*.exx,*.zzz,*.xyz,*.aaa,*.abc,*.ccc,*.vvv,*.xxx,*.ttt,*.micro,*.encrypted,*.locked,*.cry,*.crypto,*_crypt,*.crinf,*.r5a,*.XRNT,*.XTBL,*.crypt,*.R16M01D05,*.pzdc,*.good,*.LOL!,*.OMG!,*.RDM,*.RRK,*.encryptedRSA,*.crjoker,*.EnCiPhErEd,*.LeChiffre,*.keybtc@inbox_com,*.0x0,*.bleep,*.1999,*.vault,*.HA3,*.toxcrypt,*.magic,*.SUPERCRYPT,*.CTBL,*.CTB2,*.locky logfile=/var/log/filewatch-sus.log
+log "suspect extension $(path) $(user)@$(ip *$(prog)" path=*[Dd]ecrypt*,*[Rr]ecover*,*[Rr]estor*,*DECRYPT*,*RECOVER*,*RESTORE* logfile=/var/log/filewatch-sus.log
+
+#call the 'modified' ruleset
+call modified modify
+
