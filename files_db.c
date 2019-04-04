@@ -41,11 +41,11 @@ if (! DB) DB=MapCreate(FILESDB_BUCKET_COUNT, LIST_FLAG_CACHE);
 	}
 
   #ifdef USE_XATTR
-  FE->StoredPath=FileGetXAttr(FE->StoredPath, FE->Path, "trusted.filewatch-path");
+  FE->StoredPath=FileGetXAttr(FE->StoredPath, FE->Path, "trusted.filewatch:path");
   if (StrLen(FE->StoredPath)==0)
   {
      FE->StoredPath=CopyStr(FE->StoredPath, FE->Path);
-     FileSetXAttr(FE->Path, "trusted.filewatch-path", FE->StoredPath);
+     FileSetXAttr(FE->Path, "trusted.filewatch:path", FE->StoredPath);
   }
   else if (strcmp(FE->Path, FE->StoredPath) !=0) 
 	{

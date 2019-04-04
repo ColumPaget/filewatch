@@ -21,7 +21,7 @@ return(val);
 }
 
 
-void ParseRuleset(STREAM *S, ListNode *Rules)
+void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
 {
 char *Tempstr=NULL, *Name=NULL, *Value=NULL;
 const char *ptr;
@@ -49,7 +49,7 @@ int val;
 			Ruleset=ListCreate();
 			ptr=GetToken(ptr,"\\S", &Name, GETTOKEN_QUOTES);
 			ListAddNamedItem(RuleChains, Name, Ruleset);
-			ParseRuleset(S, Ruleset);
+			ParseRuleset(S, Name, Ruleset);
 		break;
 
 		case ACT_ALLOW:
@@ -131,6 +131,9 @@ int val;
 	
 	Tempstr=STREAMReadLine(Tempstr, S);
 	}
+
+
+	if (GlobalFlags & GFLAG_DEBUG) printf("parsed ruleset: '%s' %d entries\n", SetName, ListSize(Rules));
 	Destroy(Value);
 	Destroy(Name);
 }
@@ -146,9 +149,11 @@ if (! Rules) Rules=ListCreate();
 S=STREAMOpen(Path, "r");
 if (S)
 {
-ParseRuleset(S, Rules);
-STREAMClose(S);
+	if (GlobalFlags & GFLAG_DEBUG) printf("opened config file: '%s'\n", Path);
+	ParseRuleset(S, "root", Rules);
+	STREAMClose(S);
 }
+else if (GlobalFlags & GFLAG_DEBUG) printf("ERROR: Failed to open config file: '%s'\n", Path);
 
 Destroy(Tempstr);
 }

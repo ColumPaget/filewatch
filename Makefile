@@ -1,9 +1,11 @@
 CC=gcc
-OBJ=servant.o common.o users.o event.o files_db.o stats.o process.o config_file.o libUseful/libUseful-3.a
-FLAGS=-DUSE_XATTR=1 -D_FILE_OFFSET_BITS=64 $(CFLAGS)
+OBJ=servant.o common.o users.o event.o files_db.o stats.o process.o config_file.o
+FLAGS=-g -DUSE_XATTR=1 -D_FILE_OFFSET_BITS=64 $(CFLAGS)
+STATIC_LIBS=
+LIBS=-lcrypto -lssl -lUseful 
 
-all: $(OBJ) main.c
-	$(CC) $(FLAGS) -o filewatch main.c $(OBJ) -lUseful-3 -lssl -lcrypto
+all: $(OBJ) main.c 
+	$(CC) $(FLAGS) -o filewatch main.c $(OBJ) $(LIBS) $(STATIC_LIBS)
 
 files_db.o: files_db.c files_db.h
 	$(CC) $(FLAGS) -c files_db.c
@@ -29,7 +31,7 @@ common.o: common.c common.h
 config_file.o: config_file.c config_file.h
 	$(CC) $(FLAGS) -c config_file.c
 
-libUseful/libUseful-3.a: 
+libUseful/libUseful.a: 
 	$(MAKE) -C libUseful
 
 clean:

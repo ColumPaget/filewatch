@@ -1,6 +1,6 @@
 #include "common.h"
 
-const char *ActionTypes[]={"}","ruleset","call","ignore","syslog:crit","syslog:warn","syslog","log","exec","xattr", "dirlog", "send", "mail", "allow", "deny", "addlist","xachangelog","freeze","freeze+parent","kill","kill+parent","return","md5","sha1","sha256",NULL};
+const char *ActionTypes[]={"}","ruleset","call","ignore","syslog:crit","syslog:warn","syslog","log","exec","xattr", "dirlog", "send", "mail", "allow", "deny", "addlist","xachangelast", "xachangelog","freeze","freeze+parent","kill","kill+parent","return","md5","sha1","sha256",NULL};
 
 
 ListNode *RuleChains=NULL;

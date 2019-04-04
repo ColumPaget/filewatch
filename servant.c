@@ -230,13 +230,17 @@ switch (Act)
 			}
 			break;
 
+      case ACT_XACHANGELAST:
+				Tempstr=SubstituteVarsInString(Tempstr, "$(when) $(user)@$(ip) $(program):$(pid)",  Vars, 0);
+        FileSetXAttr(GetVar(Vars, "path"), "trusted.filewatch:last", Tempstr);
+      break;
 
-			case ACT_XCHANGELOG:
+			case ACT_XACHANGELOG:
 			Tempstr=SubstituteVarsInString(Tempstr, "$(when) $(user)@$(ip) $(program):$(pid) |",  Vars, 0);
-			Token=FileGetXAttr(Token, GetVar(Vars, "path"), "trusted.filewatch-log");
+			Token=FileGetXAttr(Token, GetVar(Vars, "path"), "trusted.filewatch:log");
 			Tempstr=CatStr(Tempstr,Token);
 			if (StrLen(Tempstr) > 1024) Tempstr[1024]='\0';
-			FileSetXAttr(GetVar(Vars, "path"), "trusted.filewatch-log", Tempstr);
+			FileSetXAttr(GetVar(Vars, "path"), "trusted.filewatch:log", Tempstr);
 			break;
 
 			case ACT_MD5:

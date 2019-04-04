@@ -109,18 +109,18 @@ int EventMatches(TFileAction *Act, TFileEvent *Event)
 	if ( (Act->Flags & MATCH_NEW) && (! (Event->Flags & FLAG_NEW)) ) return(FALSE);
 	if ( (Act->Flags & MATCH_RENAME) && (! (Event->Flags & FLAG_RENAME)) ) return(FALSE);
 
-	if (! MatchList(Act->Path, Event->Path)) return(FALSE);
-	if (! MatchList(Act->Time, Event->TimeStr)) return(FALSE);
+	if (StrValid(Act->Path) && (! MatchList(Act->Path, Event->Path))) return(FALSE);
+	if (StrValid(Act->Time) && (! MatchList(Act->Time, Event->TimeStr))) return(FALSE);
 
 	if (Event->Process)
 	{
 	if (! ProgMatch(Act->Prog, Event->Process->ProgName)) return(FALSE);
-	if (! MatchList(Act->User, Event->Process->User)) return(FALSE);
+	if (StrValid(Act->User) && (! MatchList(Act->User, Event->Process->User))) return(FALSE);
 	}
 
 	if ( (Act->MinAge > 0) && (Event->MTime > (Now + Act->MinAge)) ) return(FALSE);
 	if ( (Act->MaxAge > 0) && (Event->MTime < (Now + Act->MaxAge)) ) return(FALSE);
-if (Act->MinAge) printf("AGE: %s %ld %ld %ld\n",Event->Path, (long) Event->MTime, (long) Act->MinAge, (long) Now);
+	if (Act->MinAge) printf("AGE: %s %ld %ld %ld\n",Event->Path, (long) Event->MTime, (long) Act->MinAge, (long) Now);
 
 	if ((Act->PidMaxPerSec  > 0) && ((! Event->PidStats) || (Event->PidStats->per_sec  < Act->PidMaxPerSec))) return(FALSE);
 	if ((Act->PidMaxPerMin  > 0) && ((! Event->PidStats) || (Event->PidStats->per_min  < Act->PidMaxPerMin))) return(FALSE);
@@ -187,7 +187,16 @@ void ProcessEventRules(STREAM *ServantS, ListNode *Rules, const char *Type, TFil
 {
 ListNode *Curr, *Node;
 TFileAction *Act;
-char *Msg=NULL;
+char *Tempstr=NULL;
+
+/* WARNING: MOST ACTIONS ARE NOT DEALT WITH HERE!
+*
+* most actions are dealt with by the servant process. Go and look in servant.c
+*
+*  WARNING
+*/
+ 
+
 
 		Curr=ListGetNext(Rules);
 		while (Curr)
@@ -208,6 +217,7 @@ char *Msg=NULL;
 					break;
 
 					case ACT_IGNORE: 
+						if (GlobalFlags & GFLAG_DEBUG) printf("act-ignore: %s %s\n", Act->Path, FE->Path);
 						FE->Flags |= FLAG_IGNORE;
 						Curr=NULL; 
 					break;
@@ -222,10 +232,9 @@ char *Msg=NULL;
 //						printf("DENY %d\n",FE->fd);
 					break;
 
-
-					default:
-						Msg=FormatSendArgs(Msg, Act, Type, FE);
-						STREAMWriteLine(Msg, ServantS);
+				default:
+						Tempstr=FormatSendArgs(Tempstr, Act, Type, FE);
+						STREAMWriteLine(Tempstr, ServantS);
 					break;
 					}
 			}
@@ -233,38 +242,16 @@ char *Msg=NULL;
 		Curr=ListGetNext(Curr);
 		}
 
-Destroy(Msg);
+Destroy(Tempstr);
 }
 
 
-void ProcessEvent(STREAM *ServantS, int Flags, int fd, pid_t pid)
+void ProcessEventCommit(STREAM *ServantS, TFileEvent *FE, int Flags)
 {
-int AllowDeny=FAN_ALLOW;
-char *Tempstr=NULL, *Token=NULL, *Item=NULL;
-const char *ptr, *p_Type="open";
-STREAM *S;
-int len;
-FANOTIFY_METADATA fa_data;
-TFileEvent *FE=NULL;
+const char *p_Type="open";
+char *Tempstr=NULL;
 float val;
 
-Now=GetTime(0);
-Tempstr=FormatStr(Tempstr,"/proc/self/fd/%d",fd);
-Item=SetStrLen(Item, PATH_MAX);
-len=readlink(Tempstr, Item, PATH_MAX);
-if (len > -1)
-{
-	Item[len]='\0';
-	FE=FilesDBGet(Item);
-	if (! FE) 
-	{
-		FE=FilesDBAdd(Item, Flags, pid);
-	}
-	if (FE->Flags & FLAG_IGNORE) FE=NULL;
-}
-
-if (FE && (! IsRepeatEvent(FE, pid, Flags, Now)))
-{
 	FE->When=Now;
 	FE->TimeStr=CopyStr(FE->TimeStr, GetDateStrFromSecs("%H:%M:%S", Now, NULL));
 	FE->Flags |= FLAG_PROCESSED;
@@ -273,6 +260,7 @@ if (FE && (! IsRepeatEvent(FE, pid, Flags, Now)))
   if (FE->Process && StrValid(FE->Process->IP)) FE->Flags |= FLAG_REMOTE;
 
 	
+	//if the event had the modify flag set, but the FE doesn't, we're going to have to update it
 	if (Flags & FAN_MODIFY)
 	{
 	p_Type="modify";
@@ -314,6 +302,7 @@ if (FE && (! IsRepeatEvent(FE, pid, Flags, Now)))
 	//must do this here, as 'modify' and 'close' can both be set!
 	else if (Flags & FAN_CLOSE) p_Type="close";
 
+	if (GlobalFlags & GFLAG_DEBUG) printf("event: %s %s\n", p_Type, FE->Path);
 	ProcessEventRules(ServantS, Rules, p_Type, FE);
 
 	if (isatty(1))
@@ -335,6 +324,44 @@ if (Flags & FAN_CLOSE)
 
 }
 
+void ProcessEvent(STREAM *ServantS, int Flags, int fd, pid_t pid)
+{
+int AllowDeny=FAN_ALLOW;
+char *Tempstr=NULL, *Item=NULL;
+const char *p_Type="open";
+STREAM *S;
+int len;
+FANOTIFY_METADATA fa_data;
+TFileEvent *FE=NULL;
+
+Now=GetTime(0);
+Tempstr=FormatStr(Tempstr,"/proc/self/fd/%d",fd);
+Item=SetStrLen(Item, PATH_MAX);
+len=readlink(Tempstr, Item, PATH_MAX);
+if (len > -1)
+{
+	Item[len]='\0';
+	FE=FilesDBGet(Item);
+	if (! FE) 
+	{
+		FE=FilesDBAdd(Item, Flags, pid);
+	}
+}
+
+if (GlobalFlags & GFLAG_DEBUG) printf("event: fd=%d pid=%d path=%s FE=%d\n", fd, pid, Item, FE);
+
+if (FE) 
+{
+	if (FE-> Flags & FLAG_IGNORE) 
+	{
+		if (GlobalFlags & GFLAG_DEBUG) printf("ignore: fd=%d path=%s\n", fd, Item);
+	}
+	else if (IsRepeatEvent(FE, pid, Flags, Now))
+	{
+		if (GlobalFlags & GFLAG_DEBUG) printf("repeat: fd=%d path=%s\n", fd, Item);
+	}
+	else ProcessEventCommit(ServantS, FE, Flags);
+}
 
 if ((Now - LastHousekeep) > 10) 
 {
@@ -345,7 +372,6 @@ if ((Now - LastHousekeep) > 10)
 
 
 Destroy(Tempstr);
-Destroy(Token);
 Destroy(Item);
 }
 
@@ -393,7 +419,7 @@ while (1)
 				else 
 				*/
 
-				ProcessEvent(ServantS, metaptr->mask, metaptr->fd, metaptr->pid);
+				if ((metaptr->pid != self) && (metaptr->pid != servant)) ProcessEvent(ServantS, metaptr->mask, metaptr->fd, metaptr->pid);
 				lastfd=metaptr->fd;
 			}
 			close(metaptr->fd);
@@ -417,6 +443,7 @@ for (i=1; i < argc; i++)
 {
 	if (strcmp(argv[i],"-c")==0) *ConfigPath=CopyStr(*ConfigPath,argv[++i]);
 	else if (strcmp(argv[i],"-d")==0) demonize();
+	else if (strcmp(argv[i],"-D")==0) GlobalFlags |= GFLAG_DEBUG;
 	else if (strcmp(argv[i],"-show")==0) GlobalFlags |= GFLAG_SHOW_OPENS | GFLAG_SHOW_MODS;
 	else if (strcmp(argv[i],"-show-write")==0) 
 	{
@@ -428,7 +455,18 @@ for (i=1; i < argc; i++)
 		LibUsefulSetValue("SMTP:Server", argv[i+1]);
 		i++;
 	}
-	else *WatchPath=MCatStr(*WatchPath, argv[++i], ":",NULL);
+	else if (strcmp(argv[i],"-version")==0) 
+	{
+		printf("filewatch: version %s\n", VERSION);
+		exit(0);
+	}
+	else if (strcmp(argv[i],"-V")==0) 
+	{
+		printf("filewatch: version %s\n", VERSION);
+		exit(0);
+	}
+	else *WatchPath=MCatStr(*WatchPath, argv[i], ":",NULL);
+
 }
 
 }
@@ -441,6 +479,7 @@ char *WatchPath=NULL, *ConfigPath=NULL, *Token=NULL;
 const char *ptr;
 
 
+ParseCommandLine(argc, argv, &ConfigPath, &WatchPath);
 if (getuid() !=0)
 {
 printf("ERROR: filewatch must be run as root, unfortunately, because it needs access to information on all processes and files\n");
@@ -449,7 +488,6 @@ exit(1);
 
 ConfigPath=CopyStr(ConfigPath, "/etc/filewatch.conf");
 
-ParseCommandLine(argc, argv, &ConfigPath, &WatchPath);
 LoadConfig(ConfigPath);
 
 if (! StrValid(WatchPath)) WatchPath=CopyStr(WatchPath, "/");
@@ -466,8 +504,10 @@ FaNotifyFD=fanotify_init(FAN_CLOEXEC | FaNotifyClass, O_RDONLY | O_CLOEXEC | O_L
 ptr=GetToken(WatchPath,":",&Token,0);
 while (ptr)
 {
-FaNotifyAddWatch(Token);
-ptr=GetToken(ptr,":",&Token,0);
+	if (GlobalFlags & GFLAG_DEBUG) printf("watch mount: '%s'\n", Token);
+
+	FaNotifyAddWatch(Token);
+	ptr=GetToken(ptr,":",&Token,0);
 }
 
 Process();

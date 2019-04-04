@@ -21,9 +21,10 @@
 ```
 	-c <path>    Path to config file (default is /etc/filewatch.conf)
 	-d           Become a background 'daemon' process
+	-D           Print some debugging output
 	-show        Show all file events
-	-show-write  Show file modification events.
-	-mx <host>   Mail exchange host for sending notifications.
+	-show-write  Show file modification events
+	-mx <host>   Mail exchange host for sending notifications
 ```
 	
 ## CONFIG FILE
@@ -51,12 +52,15 @@ kill                     If event matches then send 'SIGKILL' to the associated 
 freeze+parent            If event matches then send 'SIGSTOP' to the associated process, 'freezing' it AND ITS PARENT.
 kill+parent              If event matches then send 'SIGKILL' to the associated process AND ITS PARENT.
 xattr <value>            Set an extended attribute on filesystems that support this.
-xachangelog              Use an extended attribute on filesystems that support this to support a changelog of recent changes to the file.
+xachangelast             Use an extended attribute on filesystems that support this to record who/what/when last changed a file.
+xachangelog              Use an extended attribute on filesystems that support this to support a changelog of recent changes to a file.
 md5                      Use an extended attribute to store an md5 hash of the file (stored in trusted.hashrat:md5  and in hashrat format).
 sha1                     Use an extended attribute to store an sha1 hash of the file (stored in trusted.hashrat:sha1 and in hashrat format).
 sha256                   Use an extended attribute to store an sha256 hash of the file (stored in trusted.hashrat:sha256 and in hashrat format).
 call <ruleset>           call a ruleset
 ```
+
+### hash actions
 
 'hashrat' format is used for the md5, sha1, and sha256 actions, and this is a format compatible with my 'hashrat' hashing program. The format is:
 
@@ -65,10 +69,16 @@ call <ruleset>           call a ruleset
 
 The 'seconds' argument is the time that the hash was valid for, expressed in seconds since epoch. This and the filesize are used to give some assurance that the file hasn't changed since the hash was taken. 
 
+### xattr actions
+
+The xachangelog and xachangelast actions record details of file changes in file extended attributes. The xachangelast action just records the user, program and time details of the change. The xachangelog action stores a list of such details, fitting as many change records as it can into the extended attribute on a first-in-first-out basis. 
+
+Extended attributes can be viewed by running the 'getfattr -m - -d <filename>' command as root. The '-m -' option is needed to ensure that all attributes (including trusted) are listed, not just 'user' attributes. On XFS filesystems the command 'attr -R -l <filename>' can be used to list extended attributes, and 'attr -R -g <attribute> <filename>' can be used to view the value of an attribute.
+
 
 ### arguments:
 
-the 'log' and 'syslog' actions take an argument that defines the message. This argument can include 'variables' that are substituted with values relating to the event. For example:
+The 'log' and 'syslog' actions take an argument that defines the message. This argument can include 'variables' that are substituted with values relating to the event. For example:
 
 ```
 syslog:crit "executable modified path=$(path) by $(user)@$(ip) $(prog)" exec modify
