@@ -431,6 +431,27 @@ Destroy(Path);
 }
 
 
+void ShowUsage()
+{
+
+printf("usage: filewatch <options> [mount point]\n");
+printf("options:\n");
+printf("  -c <path>   Path to config file\n");
+printf("  -d          Daemonize (run as daemon in background, persist after logout)\n");
+printf("  -D          Output LOTS of debugging\n");
+printf("  -show       Output log of filesystem events\n");
+printf("  -show-write Output log of filesystem write events only\n");
+printf("  -version    Output filewatch version and exit\n");
+printf("  -?          This help\n");
+printf("  -h          This help\n");
+printf("  -help       This help\n");
+printf("  --help      This help\n");
+printf("\n");
+printf("Filewatch can be run against multiple mount-points. For instance, if you have seperate filesystems mounted on / and /home you can run:\n");
+printf("  filewatch / /home\n");
+
+exit(0);
+}
 
 
 void ParseCommandLine(int argc, char *argv[], char **ConfigPath, char **WatchPath)
@@ -463,6 +484,10 @@ for (i=1; i < argc; i++)
 		printf("filewatch: version %s\n", VERSION);
 		exit(0);
 	}
+	else if (strcmp(argv[i],"-?")==0) ShowUsage();
+	else if (strcmp(argv[i],"-h")==0) ShowUsage();
+	else if (strcmp(argv[i],"-help")==0) ShowUsage();
+	else if (strcmp(argv[i],"--help")==0) ShowUsage();
 	else *WatchPath=MCatStr(*WatchPath, argv[i], ":",NULL);
 
 }
@@ -480,12 +505,12 @@ const char *ptr;
 ConfigPath=CopyStr(ConfigPath, DEFAULT_CONFIG_PATH);
 
 ParseCommandLine(argc, argv, &ConfigPath, &WatchPath);
+
 if (getuid() !=0)
 {
 printf("ERROR: filewatch must be run as root, unfortunately, because it needs access to information on all processes and files\n");
 exit(1);
 }
-
 
 if (! LoadConfig(ConfigPath))
 {
