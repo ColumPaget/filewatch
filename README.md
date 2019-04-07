@@ -66,6 +66,7 @@ call <ruleset>           call a ruleset
 
 ```
 <seconds>:<filesize>:<hash>
+```
 
 The 'seconds' argument is the time that the hash was valid for, expressed in seconds since epoch. This and the filesize are used to give some assurance that the file hasn't changed since the hash was taken. 
 
