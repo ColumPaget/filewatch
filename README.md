@@ -1,6 +1,6 @@
 ## SUMMARY
 
-	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response.
+	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response. 
 
 ## DISCLAIMER
 
@@ -45,10 +45,10 @@ log <message>            This action writes an entry in a logfile. The default l
 syslog <message>         Send an 'info' message to syslog.
 syslog:warn <message>    Send an 'warning' message to syslog.
 syslog:crit <message>    Send an 'critical' message to syslog.
+exec <command>           Execute a command.
 freeze                   If event matches then send 'SIGSTOP' to the associated process, 'freezing' it.
 kill                     If event matches then send 'SIGKILL' to the associated process.
 freeze                   If event matches then send 'SIGSTOP' to the associated process, 'freezing' it.
-kill                     If event matches then send 'SIGKILL' to the associated process.
 freeze+parent            If event matches then send 'SIGSTOP' to the associated process, 'freezing' it AND ITS PARENT.
 kill+parent              If event matches then send 'SIGKILL' to the associated process AND ITS PARENT.
 xattr <value>            Set an extended attribute on filesystems that support this.
@@ -75,13 +75,24 @@ The xachangelog and xachangelast actions record details of file changes in file 
 
 Extended attributes can be viewed by running the 'getfattr -m - -d <filename>' command as root. The '-m -' option is needed to ensure that all attributes (including trusted) are listed, not just 'user' attributes. On XFS filesystems the command 'attr -R -l <filename>' can be used to list extended attributes, and 'attr -R -g <attribute> <filename>' can be used to view the value of an attribute.
 
+There is an issue with the xachangelog action that if a process creates a copy of a file, and then replaces the original, the changelog is not carried over. In such situations the changelog will only contain the last change.
+
+### exec actions
+
+The 'exec' action allows a command to be run in response to a file event. It takes a single argument that defines the command to be run, like so:
+
+```
+exec '/usr/bin/aplay /usr/share/sounds/warning.wav' path=/etc/hosts close
+```
 
 ### arguments:
 
-The 'log' and 'syslog' actions take an argument that defines the message. This argument can include 'variables' that are substituted with values relating to the event. For example:
+The 'log', 'syslog' and 'exec' actions take an argument that defines the message or defines the command to be run in the case of 'exec'. This argument can include 'variables' that are substituted with values relating to the event. For example:
 
 ```
 syslog:crit "executable modified path=$(path) by $(user)@$(ip) $(prog)" exec modify
+
+exec "/usr/local/bin/OrderImport $(path)"  path=/home/dropbox/orders/*.csv modify
 ```
 
 available variables are:
