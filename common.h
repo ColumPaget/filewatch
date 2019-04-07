@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <sys/fanotify.h>
 
-#define VERSION "1.1"
+#define VERSION "1.2"
 
 #define MATCH_MODIFY     1
 #define MATCH_CLOSE     2
