@@ -34,11 +34,24 @@ int val;
 	{
 	StripTrailingWhitespace(Tempstr);
 	StripLeadingWhitespace(Tempstr);
+
+	//ignore blank lines, we don't want to trigger 'unrecognized config entry' warnings for them
+	if (StrValid(Tempstr))
+	{
 	ptr=GetToken(Tempstr,"\\S", &Value, GETTOKEN_QUOTES);
+
+	//This returns a value representing an action from action types, so if you're looking
+	//in this file for ACT_CALL, ACT_XACHANGELOG, etc, then they're not explicity handled
+	//but are instead identified by this line
 	val=MatchTokenFromList(Value, ActionTypes, 0);
 
 	if (val==ENDBRACE) break;
-	if (val > -1)
+	if ((val == -1) && (GlobalFlags & GFLAG_DEBUG)) 
+	{
+		//if it starts with # it's a comment, otherwise we've no idea what it is
+		if (*Value != '#')	printf("WARNING: Unrecognized config entry: %s\n", Tempstr);
+	}
+	else
 	{
 		Act=(TFileAction *) calloc(1,sizeof(TFileAction));
 		Act->Action=val;
@@ -82,6 +95,12 @@ int val;
 		ListAddItem(Rules, Act);
 		break;
 
+		case ACT_EXEC:
+		ptr=GetToken(ptr,"\\S", &Value, GETTOKEN_QUOTES);
+		Act->ActionArg=CopyStr(Act->ActionArg, Value);
+		ListAddItem(Rules, Act);
+		break;
+
 		default:
 		ptr=GetToken(ptr,"\\S", &Act->ActionArg, GETTOKEN_QUOTES);
 		ListAddItem(Rules, Act);
@@ -89,6 +108,7 @@ int val;
 		}
 
 
+		//parse arguments of an action. 
 		ptr=GetNameValuePair(ptr, "\\S", "=", &Name, &Value);
 		while (ptr)
 		{
@@ -128,6 +148,7 @@ int val;
 			ptr=GetNameValuePair(ptr, "\\S", "=", &Name, &Value);
 		}
 	}
+	}
 	
 	Tempstr=STREAMReadLine(Tempstr, S);
 	}
@@ -140,22 +161,78 @@ int val;
 
 
 
-void LoadConfig(const char *Path)
+static void ConfigCheckRules(ListNode *Rules, ListNode *CalledRuleChains)
+{
+TFileAction *Act;
+ListNode *Curr;
+
+Curr=ListGetNext(Rules);
+while (Curr)
+{
+  Act=(TFileAction *) Curr->Item;
+	switch (Act->Action)
+	{
+		case ACT_CALL:
+			if (! ListFindNamedItem(RuleChains, Act->ActionArg)) printf("WARNING: ruleset '%s' called but does not exist\n", Act->ActionArg);
+			ListAddNamedItem(CalledRuleChains, Act->ActionArg, NULL);
+		break;
+	}
+
+	Curr=ListGetNext(Curr);
+}
+
+}
+
+
+//this doesn't really declare a config valid or invalid, rather it prints out warnings about possible
+//misconfigurations
+static void ConfigCheckValid(ListNode *Rules)
+{
+ListNode *CalledRuleChains;
+ListNode *Curr;
+
+CalledRuleChains=ListCreate();
+ConfigCheckRules(Rules, CalledRuleChains);
+
+Curr=ListGetNext(RuleChains);
+while (Curr)
+{
+ConfigCheckRules((ListNode *) Curr->Item, CalledRuleChains);
+Curr=ListGetNext(Curr);
+}
+
+Curr=ListGetNext(RuleChains);
+while (Curr)
+{
+if (! ListFindNamedItem(CalledRuleChains, Curr->Tag)) printf("WARNING: ruleset '%s' exists but is never called\n");
+Curr=ListGetNext(Curr);
+}
+
+}
+
+
+
+int LoadConfig(const char *Path)
 {
 char *Tempstr=NULL;
 STREAM *S;
+int RetVal=FALSE;
 
 if (! Rules) Rules=ListCreate();
 S=STREAMOpen(Path, "r");
 if (S)
 {
+	RetVal=TRUE;
 	if (GlobalFlags & GFLAG_DEBUG) printf("opened config file: '%s'\n", Path);
 	ParseRuleset(S, "root", Rules);
 	STREAMClose(S);
 }
 else if (GlobalFlags & GFLAG_DEBUG) printf("ERROR: Failed to open config file: '%s'\n", Path);
 
+if (GlobalFlags & GFLAG_DEBUG) ConfigCheckValid(Rules);
 Destroy(Tempstr);
+
+return(RetVal);
 }
 
 

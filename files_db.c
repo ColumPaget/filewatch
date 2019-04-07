@@ -54,7 +54,6 @@ if (! DB) DB=MapCreate(FILESDB_BUCKET_COUNT, LIST_FLAG_CACHE);
   #endif
 
 	ListAddNamedItem(DB, FE->Path, FE);
-//printf("LIST ADD: %d %s\n",ListSize(DB),Path);
 	Destroy(Tempstr);
 	
 	return(FE);
@@ -104,7 +103,6 @@ if (DB)
 Node=ListFindNamedItem(DB, Path);
 if (Node)
 {
-//	printf("DB DEL: %d [%s]\n",Node, Path);
 	FE=(TFileEvent *) Node->Item;
 	if (! CloseList) CloseList=ListCreate();
 	ListAddNamedItem(CloseList, Path, FE);

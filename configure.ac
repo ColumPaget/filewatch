@@ -8,7 +8,7 @@ AC_ARG_WITH(libuseful, [  --with-libuseful		use system-wide libUseful (default=a
 
 if test "$cf_system_libuseful" != "no"
 then
-AC_CHECK_LIB(Useful,GetToken,[cf_have_libUseful=yes],[cf_have_libUseful=no])
+AC_CHECK_LIB([Useful-4],GetToken,[cf_have_libUseful=yes],[cf_have_libUseful=no])
 fi
 
 if test "$cf_have_libUseful" = "yes"
@@ -17,15 +17,15 @@ then
   echo "if you want to use bundled libUseful, force it with --with-libuseful=no"
   AC_SUBST(LIBUSEFUL_BUNDLED,"")
   dnl Default behavior of AC_CHECK_LIB is to add the library to the LIBS variable
-  AC_CHECK_LIB(Useful,GetToken,,)
+  AC_CHECK_LIB([Useful-4],GetToken,,)
 
 	dnl openssl isn't really needed, but if it exists and we're using a system-wide libUseful, then that will
 	dnl likely be linked against it
 	AC_CHECK_LIB(ssl,SSL_library_init,,)
 	AC_CHECK_LIB(crypto,EVP_CIPHER_CTX_init,,)
 else
-  AC_SUBST(LIBUSEFUL_BUNDLED,"libUseful/libUseful.a")
-  AC_CONFIG_SUBDIRS([libUseful])
+  AC_SUBST(LIBUSEFUL_BUNDLED,"libUseful-4/libUseful.a")
+  AC_CONFIG_SUBDIRS([libUseful-4])
 fi
 
 AC_PROG_CC 

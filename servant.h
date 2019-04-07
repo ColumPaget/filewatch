@@ -8,6 +8,6 @@
 
 #include "common.h"
 
-void ServantProcess(void *Nothing);
+int ServantProcess(void *Nothing, int Flags);
 
 #endif

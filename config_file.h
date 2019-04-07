@@ -4,6 +4,6 @@
 
 #include "common.h"
 
-void LoadConfig(const char *Path);
+int LoadConfig(const char *Path);
 
 #endif

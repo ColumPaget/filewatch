@@ -125,7 +125,7 @@ return(Action);
 }
 
 
-void ServantProcess(void *Nothing)
+int ServantProcess(void *Nothing, int Flags)
 {
 char *Tempstr=NULL, *Line=NULL, *Token=NULL, *Value=NULL;
 int val, Act;
@@ -179,10 +179,10 @@ switch (Act)
 				}
 			break;
 
-
 			case ACT_EXEC:
-//				Tempstr=FormatStr(Tempstr, "%s '%s' '%s' '%s' '%d' '%d'",Act->ActionArg, FE->Path,FE->User,FE->Prog,FE->pid,FE->ppid);
-//				Spawn(Tempstr,"","","");
+				Token=CopyStr(Token, GetVar(Vars, "ActionArg"));
+				Tempstr=SubstituteVarsInString(Tempstr, Token,  Vars, 0);
+				Spawn(Tempstr,"");
 			break;
 
 			case ACT_DIRLOG:
@@ -272,6 +272,8 @@ Destroy(Tempstr);
 Destroy(Token);
 Destroy(Value);
 Destroy(Line);
+
+return(0);
 }
 
 

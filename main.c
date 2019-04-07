@@ -120,7 +120,6 @@ int EventMatches(TFileAction *Act, TFileEvent *Event)
 
 	if ( (Act->MinAge > 0) && (Event->MTime > (Now + Act->MinAge)) ) return(FALSE);
 	if ( (Act->MaxAge > 0) && (Event->MTime < (Now + Act->MaxAge)) ) return(FALSE);
-	if (Act->MinAge) printf("AGE: %s %ld %ld %ld\n",Event->Path, (long) Event->MTime, (long) Act->MinAge, (long) Now);
 
 	if ((Act->PidMaxPerSec  > 0) && ((! Event->PidStats) || (Event->PidStats->per_sec  < Act->PidMaxPerSec))) return(FALSE);
 	if ((Act->PidMaxPerMin  > 0) && ((! Event->PidStats) || (Event->PidStats->per_min  < Act->PidMaxPerMin))) return(FALSE);
@@ -150,7 +149,7 @@ char *p_ActName="", *p_ActArg="";
 
 if (Act)
 {
-p_ActName=(char *) ArrayGetItem(ActionTypes, Act->Action);
+p_ActName=(char *) ArrayGetItem((void **) ActionTypes, Act->Action);
 p_ActArg=Act->ActionArg;
 }
 
@@ -163,6 +162,7 @@ if (FE->Flags & FLAG_EXECUTABLE) RetStr=CatStr(RetStr, " executable=y");
 if (FE->Flags & FLAG_RENAME) RetStr=MCatStr(RetStr, " rename='", FE->StoredPath,"'", NULL);
 if (Act && StrValid(Act->Extra)) RetStr=MCatStr(RetStr, " extra='", Act->Extra,"'", NULL);
 
+if (GlobalFlags & GFLAG_DEBUG) printf("to servant: %s\n", RetStr);
 RetStr=CatStr(RetStr, "\n");
 
 
@@ -196,8 +196,6 @@ char *Tempstr=NULL;
 *  WARNING
 */
  
-
-
 		Curr=ListGetNext(Rules);
 		while (Curr)
 		{
@@ -479,6 +477,8 @@ char *WatchPath=NULL, *ConfigPath=NULL, *Token=NULL;
 const char *ptr;
 
 
+ConfigPath=CopyStr(ConfigPath, DEFAULT_CONFIG_PATH);
+
 ParseCommandLine(argc, argv, &ConfigPath, &WatchPath);
 if (getuid() !=0)
 {
@@ -486,16 +486,19 @@ printf("ERROR: filewatch must be run as root, unfortunately, because it needs ac
 exit(1);
 }
 
-ConfigPath=CopyStr(ConfigPath, "/etc/filewatch.conf");
 
-LoadConfig(ConfigPath);
+if (! LoadConfig(ConfigPath))
+{
+	printf("ERROR: Failed to open config file '%s'\n", ConfigPath);
+	exit(1);
+}
 
 if (! StrValid(WatchPath)) WatchPath=CopyStr(WatchPath, "/");
 LoadUserList();
 if (EventMask & FAN_OPEN_PERM) 
 {
 	FaNotifyClass=FAN_CLASS_CONTENT;
-	//the permissions feature is too risky for use. It can dealock the kernel
+	//the permissions feature is too risky for use. It can deadlock the kernel
 	//EventMask |= FAN_OPEN_PERM;
 }
 

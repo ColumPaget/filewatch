@@ -602,7 +602,6 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
-VERSION
 target_alias
 host_alias
 build_alias
@@ -656,7 +655,7 @@ LDFLAGS
 LIBS
 CPPFLAGS
 CPP'
-ac_subdirs_all='libUseful'
+ac_subdirs_all='libUseful-4'
 
 # Initialize some variables set by options.
 ac_init_help=
@@ -1875,9 +1874,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-VERSION="1.0"
-
-
 
 
 
@@ -2679,13 +2675,13 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GetToken in -lUseful" >&5
-$as_echo_n "checking for GetToken in -lUseful... " >&6; }
-if ${ac_cv_lib_Useful_GetToken+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GetToken in -lUseful-4" >&5
+$as_echo_n "checking for GetToken in -lUseful-4... " >&6; }
+if ${ac_cv_lib_Useful_4_GetToken+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lUseful  $LIBS"
+LIBS="-lUseful-4  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -2705,17 +2701,17 @@ return GetToken ();
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_Useful_GetToken=yes
+  ac_cv_lib_Useful_4_GetToken=yes
 else
-  ac_cv_lib_Useful_GetToken=no
+  ac_cv_lib_Useful_4_GetToken=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_Useful_GetToken" >&5
-$as_echo "$ac_cv_lib_Useful_GetToken" >&6; }
-if test "x$ac_cv_lib_Useful_GetToken" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_Useful_4_GetToken" >&5
+$as_echo "$ac_cv_lib_Useful_4_GetToken" >&6; }
+if test "x$ac_cv_lib_Useful_4_GetToken" = xyes; then :
   cf_have_libUseful=yes
 else
   cf_have_libUseful=no
@@ -2729,13 +2725,13 @@ then
   echo "if you want to use bundled libUseful, force it with --with-libuseful=no"
   LIBUSEFUL_BUNDLED=""
 
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GetToken in -lUseful" >&5
-$as_echo_n "checking for GetToken in -lUseful... " >&6; }
-if ${ac_cv_lib_Useful_GetToken+:} false; then :
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GetToken in -lUseful-4" >&5
+$as_echo_n "checking for GetToken in -lUseful-4... " >&6; }
+if ${ac_cv_lib_Useful_4_GetToken+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lUseful  $LIBS"
+LIBS="-lUseful-4  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -2755,22 +2751,22 @@ return GetToken ();
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_Useful_GetToken=yes
+  ac_cv_lib_Useful_4_GetToken=yes
 else
-  ac_cv_lib_Useful_GetToken=no
+  ac_cv_lib_Useful_4_GetToken=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_Useful_GetToken" >&5
-$as_echo "$ac_cv_lib_Useful_GetToken" >&6; }
-if test "x$ac_cv_lib_Useful_GetToken" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_Useful_4_GetToken" >&5
+$as_echo "$ac_cv_lib_Useful_4_GetToken" >&6; }
+if test "x$ac_cv_lib_Useful_4_GetToken" = xyes; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBUSEFUL 1
+#define HAVE_LIBUSEFUL_4 1
 _ACEOF
 
-  LIBS="-lUseful $LIBS"
+  LIBS="-lUseful-4 $LIBS"
 
 fi
 
@@ -2866,7 +2862,7 @@ _ACEOF
 fi
 
 else
-  LIBUSEFUL_BUNDLED="libUseful/libUseful.a"
+  LIBUSEFUL_BUNDLED="libUseful-4/libUseful.a"
 
   ac_aux_dir=
 for ac_dir in "$srcdir" "$srcdir/.." "$srcdir/../.."; do
@@ -2899,7 +2895,7 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
 
 
-subdirs="$subdirs libUseful"
+subdirs="$subdirs libUseful-4"
 
 fi
 
