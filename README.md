@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/ColumPaget/filewatch.svg?branch=master)](https://travis-ci.com/ColumPaget/filewatch)
+
 ## SUMMARY
 
 	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response. 
