@@ -44,4 +44,7 @@ install:
 	mkdir -p $(DESTDIR)$(bindir)
 
 clean:
-	rm -f *.o */*.o */*.a
+	rm -f *.o */*.o */*.so */*.a
+
+test:
+	echo "no tests"
