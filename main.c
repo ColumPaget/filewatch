@@ -153,8 +153,8 @@ p_ActName=(char *) ArrayGetItem((void **) ActionTypes, Act->Action);
 p_ActArg=Act->ActionArg;
 }
 
-if (FE->Process) RetStr=FormatStr(RetStr, "%s '%s' access=%s path=%s user=%s program=%s pid=%ld ppid=%ld ip=%s",p_ActName, p_ActArg, Access, FE->Path, FE->Process->User, FE->Process->ProgName, FE->pid, FE->Process->ppid, FE->Process->IP);
-else RetStr=FormatStr(RetStr, "%s '%s' access=%s path=%s pid=%ld", p_ActName, p_ActArg, Access, FE->Path, FE->pid);
+if (FE->Process) RetStr=FormatStr(RetStr, "%s '%s' access=%s path='%s' user='%s' program='%s' pid=%ld ppid=%ld ip=%s",p_ActName, p_ActArg, Access, FE->Path, FE->Process->User, FE->Process->ProgName, FE->pid, FE->Process->ppid, FE->Process->IP);
+else RetStr=FormatStr(RetStr, "%s '%s' access=%s path='%s' pid=%ld", p_ActName, p_ActArg, Access, FE->Path, FE->pid);
 
 if (FE->Flags & FLAG_NEW) RetStr=CatStr(RetStr, " new=y");
 if (FE->Flags & FLAG_REMOTE) RetStr=CatStr(RetStr, " remote=y");
