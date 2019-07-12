@@ -436,16 +436,18 @@ void ShowUsage()
 
 printf("usage: filewatch <options> [mount point]\n");
 printf("options:\n");
-printf("  -c <path>   Path to config file\n");
-printf("  -d          Daemonize (run as daemon in background, persist after logout)\n");
-printf("  -D          Output LOTS of debugging\n");
-printf("  -show       Output log of filesystem events\n");
-printf("  -show-write Output log of filesystem write events only\n");
-printf("  -version    Output filewatch version and exit\n");
-printf("  -?          This help\n");
-printf("  -h          This help\n");
-printf("  -help       This help\n");
-printf("  --help      This help\n");
+printf("  -c <path>        Path to config file\n");
+printf("  -P <path>        Path of pidfile. If path dosn't start with '/' it is created under /var/run)\n");
+printf("  -pidfile <path>  Path of pidfile. If path dosn't start with '/' it is created under /var/run)\n");
+printf("  -d               Daemonize (run as daemon in background, persist after logout)\n");
+printf("  -D               Output LOTS of debugging\n");
+printf("  -show            Output log of filesystem events\n");
+printf("  -show-write      Output log of filesystem write events only\n");
+printf("  -version         Output filewatch version and exit\n");
+printf("  -?               This help\n");
+printf("  -h               This help\n");
+printf("  -help            This help\n");
+printf("  --help           This help\n");
 printf("\n");
 printf("Filewatch can be run against multiple mount-points. For instance, if you have seperate filesystems mounted on / and /home you can run:\n");
 printf("  filewatch / /home\n");
@@ -454,13 +456,15 @@ exit(0);
 }
 
 
-void ParseCommandLine(int argc, char *argv[], char **ConfigPath, char **WatchPath)
+void ParseCommandLine(int argc, char *argv[], char **ConfigPath, char **WatchPath, char **PidPath)
 {
 int i;
 
 for (i=1; i < argc; i++)
 {
 	if (strcmp(argv[i],"-c")==0) *ConfigPath=CopyStr(*ConfigPath,argv[++i]);
+	else if (strcmp(argv[i],"-P")==0) *PidPath=CopyStr(*PidPath,argv[++i]);
+	else if (strcmp(argv[i],"-pidfile")==0) *PidPath=CopyStr(*PidPath,argv[++i]);
 	else if (strcmp(argv[i],"-d")==0) demonize();
 	else if (strcmp(argv[i],"-D")==0) GlobalFlags |= GFLAG_DEBUG;
 	else if (strcmp(argv[i],"-show")==0) GlobalFlags |= GFLAG_SHOW_OPENS | GFLAG_SHOW_MODS;
@@ -498,13 +502,14 @@ for (i=1; i < argc; i++)
 
 int main(int argc, char *argv[])
 {
-char *WatchPath=NULL, *ConfigPath=NULL, *Token=NULL;
+char *WatchPath=NULL, *ConfigPath=NULL, *Token=NULL, *PidPath=NULL;
 const char *ptr;
 
 
+PidPath=CopyStr(PidPath, "filewatch");
 ConfigPath=CopyStr(ConfigPath, DEFAULT_CONFIG_PATH);
 
-ParseCommandLine(argc, argv, &ConfigPath, &WatchPath);
+ParseCommandLine(argc, argv, &ConfigPath, &WatchPath, &PidPath);
 
 if (getuid() !=0)
 {
@@ -517,6 +522,9 @@ if (! LoadConfig(ConfigPath))
 	printf("ERROR: Failed to open config file '%s'\n", ConfigPath);
 	exit(1);
 }
+
+
+WritePidFile(PidPath);
 
 if (! StrValid(WatchPath)) WatchPath=CopyStr(WatchPath, "/");
 LoadUserList();
@@ -542,5 +550,6 @@ Process();
 
 DestroyString(WatchPath);
 DestroyString(ConfigPath);
+DestroyString(PidPath);
 DestroyString(Token);
 }
