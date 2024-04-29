@@ -3,6 +3,11 @@
 AC_INIT
 AC_CONFIG_SRCDIR([main.c])
 
+AC_PROG_CC
+AC_LANG([C])
+AC_PROG_MAKE_SET
+AC_PROG_EGREP
+AC_SYS_LARGEFILE
 
 
 AC_ARG_WITH(libuseful, [  --with-libuseful		use system-wide libUseful (default=auto) ], cf_system_libuseful=$withval )
@@ -18,29 +23,29 @@ AC_CHECK_HEADER([libUseful-4/libUseful.h], [ AC_CHECK_LIB([Useful-4],GetToken,[c
 fi
 
 dnl check for libs that might be needed either by bundled or system-wide libuseful
-AC_CHECK_LIB(crypto,EVP_CIPHER_CTX_init,,)
+AC_CHECK_LIB(crypto,EVP_CIPHER_CTX_init)
 cf_have_libcrypto=$ac_cv_lib_crypto_EVP_CIPHER_CTX_init
 
 dnl New versions of openssl seem to lack EVP_CIPHER_CTX_init, so let's look for another function. I've no idea what's going on with openssl, this is why I use libressl instead.
 if test "$cf_have_libcrypto" != "yes"
 then
-	AC_CHECK_LIB(crypto,EVP_CIPHER_CTX_new,,)
+	AC_CHECK_LIB(crypto,EVP_CIPHER_CTX_new)
 	cf_have_libcrypto=$ac_cv_lib_crypto_EVP_CIPHER_CTX_new
 fi
 
 
-AC_CHECK_LIB(ssl,SSL_library_init,,)
+AC_CHECK_LIB(ssl,SSL_library_init)
 cf_have_libssl=$ac_cv_lib_ssl_SSL_library_init
 
 dnl New versions of openssl seem to lack SSL_library_init, so let's look for another function. I've no idea what's going on with openssl, this is why I use libressl instead.
 if test "$cf_have_libssl" != "yes"
 then
-	AC_CHECK_LIB(ssl,OPENSSL_init_ssl,,)
+	AC_CHECK_LIB(ssl,OPENSSL_init_ssl)
 	cf_have_libssl=$ac_cv_lib_ssl_OPENSSL_init_ssl
 fi
 
 
-AC_CHECK_LIB(z,deflate,,)
+AC_CHECK_LIB(z,deflate)
 
 
 if test "$cf_have_libUseful5" = "yes" -o "$cf_have_libUseful4" = "yes"

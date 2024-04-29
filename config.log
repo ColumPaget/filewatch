@@ -49,18 +49,18 @@ PATH: /snap/bin/
 configure:2177: looking for aux files: install-sh
 configure:2190:  trying ./
 configure:2201:   ./install-sh found
-configure:2406: checking for gcc
-configure:2427: found /usr/bin/gcc
-configure:2438: result: gcc
-configure:2791: checking for C compiler version
-configure:2800: gcc --version >&5
+configure:2394: checking for gcc
+configure:2415: found /usr/bin/gcc
+configure:2426: result: gcc
+configure:2779: checking for C compiler version
+configure:2788: gcc --version >&5
 gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
 Copyright (C) 2021 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:2811: $? = 0
-configure:2800: gcc -v >&5
+configure:2799: $? = 0
+configure:2788: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
@@ -72,104 +72,116 @@ Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
 ... rest of stderr output deleted ...
-configure:2811: $? = 0
-configure:2800: gcc -V >&5
+configure:2799: $? = 0
+configure:2788: gcc -V >&5
 gcc: error: unrecognized command-line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:2811: $? = 1
-configure:2800: gcc -qversion >&5
+configure:2799: $? = 1
+configure:2788: gcc -qversion >&5
 gcc: error: unrecognized command-line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:2811: $? = 1
-configure:2800: gcc -version >&5
+configure:2799: $? = 1
+configure:2788: gcc -version >&5
 gcc: error: unrecognized command-line option '-version'
 gcc: fatal error: no input files
 compilation terminated.
-configure:2811: $? = 1
-configure:2831: checking whether the C compiler works
-configure:2853: gcc    conftest.c  >&5
-configure:2857: $? = 0
-configure:2907: result: yes
-configure:2910: checking for C compiler default output file name
-configure:2912: result: a.out
-configure:2918: checking for suffix of executables
-configure:2925: gcc -o conftest    conftest.c  >&5
-configure:2929: $? = 0
-configure:2952: result: 
-configure:2974: checking whether we are cross compiling
-configure:2982: gcc -o conftest    conftest.c  >&5
-configure:2986: $? = 0
-configure:2993: ./conftest
-configure:2997: $? = 0
-configure:3012: result: no
-configure:3017: checking for suffix of object files
-configure:3040: gcc -c   conftest.c >&5
-configure:3044: $? = 0
-configure:3066: result: o
-configure:3070: checking whether the compiler supports GNU C
-configure:3090: gcc -c   conftest.c >&5
-configure:3090: $? = 0
-configure:3100: result: yes
-configure:3111: checking whether gcc accepts -g
-configure:3132: gcc -c -g  conftest.c >&5
-configure:3132: $? = 0
-configure:3176: result: yes
-configure:3196: checking for gcc option to enable C11 features
-configure:3211: gcc  -c -g -O2  conftest.c >&5
-configure:3211: $? = 0
-configure:3229: result: none needed
-configure:3344: checking for stdio.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for stdlib.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for string.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for inttypes.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for stdint.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for strings.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for sys/stat.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for sys/types.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3344: checking for unistd.h
-configure:3344: gcc -c -g -O2  conftest.c >&5
-configure:3344: $? = 0
-configure:3344: result: yes
-configure:3369: checking for libUseful-5/libUseful.h
-configure:3369: gcc -c -g -O2  conftest.c >&5
-configure:3369: $? = 0
-configure:3369: result: yes
-configure:3372: checking for GetToken in -lUseful-5
-configure:3395: gcc -o conftest -g -O2   conftest.c -lUseful-5   >&5
-configure:3395: $? = 0
-configure:3405: result: yes
-configure:3469: checking for EVP_CIPHER_CTX_init in -lcrypto
-configure:3492: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
-/usr/bin/ld: /tmp/cclYNXYd.o: in function `main':
-/home/colum/work/filewatch/conftest.c:27: undefined reference to `EVP_CIPHER_CTX_init'
+configure:2799: $? = 1
+configure:2819: checking whether the C compiler works
+configure:2841: gcc    conftest.c  >&5
+configure:2845: $? = 0
+configure:2895: result: yes
+configure:2898: checking for C compiler default output file name
+configure:2900: result: a.out
+configure:2906: checking for suffix of executables
+configure:2913: gcc -o conftest    conftest.c  >&5
+configure:2917: $? = 0
+configure:2940: result: 
+configure:2962: checking whether we are cross compiling
+configure:2970: gcc -o conftest    conftest.c  >&5
+configure:2974: $? = 0
+configure:2981: ./conftest
+configure:2985: $? = 0
+configure:3000: result: no
+configure:3005: checking for suffix of object files
+configure:3028: gcc -c   conftest.c >&5
+configure:3032: $? = 0
+configure:3054: result: o
+configure:3058: checking whether the compiler supports GNU C
+configure:3078: gcc -c   conftest.c >&5
+configure:3078: $? = 0
+configure:3088: result: yes
+configure:3099: checking whether gcc accepts -g
+configure:3120: gcc -c -g  conftest.c >&5
+configure:3120: $? = 0
+configure:3164: result: yes
+configure:3184: checking for gcc option to enable C11 features
+configure:3199: gcc  -c -g -O2  conftest.c >&5
+configure:3199: $? = 0
+configure:3217: result: none needed
+configure:3333: checking whether make sets $(MAKE)
+configure:3356: result: yes
+configure:3365: checking for grep that handles long lines and -e
+configure:3429: result: /usr/bin/grep
+configure:3434: checking for egrep
+configure:3502: result: /usr/bin/grep -E
+configure:3516: checking for special C compiler options needed for large files
+configure:3564: result: no
+configure:3570: checking for _FILE_OFFSET_BITS value needed for large files
+configure:3596: gcc -c -g -O2  conftest.c >&5
+configure:3596: $? = 0
+configure:3630: result: no
+configure:3728: checking for stdio.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for stdlib.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for string.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for inttypes.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for stdint.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for strings.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for sys/stat.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for sys/types.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3728: checking for unistd.h
+configure:3728: gcc -c -g -O2  conftest.c >&5
+configure:3728: $? = 0
+configure:3728: result: yes
+configure:3753: checking for libUseful-5/libUseful.h
+configure:3753: gcc -c -g -O2  conftest.c >&5
+configure:3753: $? = 0
+configure:3753: result: yes
+configure:3756: checking for GetToken in -lUseful-5
+configure:3779: gcc -o conftest -g -O2   conftest.c -lUseful-5   >&5
+configure:3779: $? = 0
+configure:3789: result: yes
+configure:3853: checking for EVP_CIPHER_CTX_init in -lcrypto
+configure:3876: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
+/usr/bin/ld: /tmp/cc1RQkvX.o: in function `main':
+/tmp/filewatch/conftest.c:27: undefined reference to `EVP_CIPHER_CTX_init'
 collect2: error: ld returned 1 exit status
-configure:3492: $? = 1
+configure:3876: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -201,17 +213,17 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3502: result: no
-configure:3516: checking for EVP_CIPHER_CTX_new in -lcrypto
-configure:3539: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
-configure:3539: $? = 0
-configure:3549: result: yes
-configure:3563: checking for SSL_library_init in -lssl
-configure:3586: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
-/usr/bin/ld: /tmp/ccsHBc4Q.o: in function `main':
-/home/colum/work/filewatch/conftest.c:28: undefined reference to `SSL_library_init'
+configure:3886: result: no
+configure:3900: checking for EVP_CIPHER_CTX_new in -lcrypto
+configure:3923: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
+configure:3923: $? = 0
+configure:3933: result: yes
+configure:3947: checking for SSL_library_init in -lssl
+configure:3970: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
+/usr/bin/ld: /tmp/ccpGTi68.o: in function `main':
+/tmp/filewatch/conftest.c:28: undefined reference to `SSL_library_init'
 collect2: error: ld returned 1 exit status
-configure:3586: $? = 1
+configure:3970: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -244,28 +256,28 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3596: result: no
-configure:3610: checking for OPENSSL_init_ssl in -lssl
-configure:3633: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
-configure:3633: $? = 0
-configure:3643: result: yes
-configure:3657: checking for deflate in -lz
-configure:3680: gcc -o conftest -g -O2   conftest.c -lz  -lssl -lcrypto  >&5
-configure:3680: $? = 0
-configure:3690: result: yes
-configure:3758: checking for GetToken in -lUseful-5
-configure:3791: result: yes
-configure:3866: checking for gcc
-configure:3898: result: gcc
-configure:4251: checking for C compiler version
-configure:4260: gcc --version >&5
+configure:3980: result: no
+configure:3994: checking for OPENSSL_init_ssl in -lssl
+configure:4017: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
+configure:4017: $? = 0
+configure:4027: result: yes
+configure:4041: checking for deflate in -lz
+configure:4064: gcc -o conftest -g -O2   conftest.c -lz  -lssl -lcrypto  >&5
+configure:4064: $? = 0
+configure:4074: result: yes
+configure:4142: checking for GetToken in -lUseful-5
+configure:4175: result: yes
+configure:4250: checking for gcc
+configure:4282: result: gcc
+configure:4635: checking for C compiler version
+configure:4644: gcc --version >&5
 gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
 Copyright (C) 2021 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:4271: $? = 0
-configure:4260: gcc -v >&5
+configure:4655: $? = 0
+configure:4644: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
@@ -277,43 +289,39 @@ Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
 ... rest of stderr output deleted ...
-configure:4271: $? = 0
-configure:4260: gcc -V >&5
+configure:4655: $? = 0
+configure:4644: gcc -V >&5
 gcc: error: unrecognized command-line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:4271: $? = 1
-configure:4260: gcc -qversion >&5
+configure:4655: $? = 1
+configure:4644: gcc -qversion >&5
 gcc: error: unrecognized command-line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:4271: $? = 1
-configure:4260: gcc -version >&5
+configure:4655: $? = 1
+configure:4644: gcc -version >&5
 gcc: error: unrecognized command-line option '-version'
 gcc: fatal error: no input files
 compilation terminated.
-configure:4271: $? = 1
-configure:4275: checking whether the compiler supports GNU C
-configure:4305: result: yes
-configure:4316: checking whether gcc accepts -g
-configure:4381: result: yes
-configure:4401: checking for gcc option to enable C11 features
-configure:4434: result: none needed
-configure:4550: checking whether make sets $(MAKE)
-configure:4573: result: yes
-configure:4598: checking for a BSD-compatible install
-configure:4671: result: /usr/bin/install -c
-configure:4685: checking for grep that handles long lines and -e
-configure:4749: result: /usr/bin/grep
-configure:4754: checking for egrep
-configure:4822: result: /usr/bin/grep -E
-configure:4836: checking for special C compiler options needed for large files
-configure:4884: result: no
-configure:4890: checking for _FILE_OFFSET_BITS value needed for large files
-configure:4916: gcc -c -g -O2  conftest.c >&5
-configure:4916: $? = 0
-configure:4950: result: no
-configure:5177: creating ./config.status
+configure:4655: $? = 1
+configure:4659: checking whether the compiler supports GNU C
+configure:4689: result: yes
+configure:4700: checking whether gcc accepts -g
+configure:4765: result: yes
+configure:4785: checking for gcc option to enable C11 features
+configure:4818: result: none needed
+configure:4934: checking whether make sets $(MAKE)
+configure:4957: result: yes
+configure:4982: checking for a BSD-compatible install
+configure:5055: result: /usr/bin/install -c
+configure:5069: checking for egrep
+configure:5137: result: /usr/bin/grep -E
+configure:5151: checking for special C compiler options needed for large files
+configure:5199: result: no
+configure:5205: checking for _FILE_OFFSET_BITS value needed for large files
+configure:5265: result: no
+configure:5492: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
