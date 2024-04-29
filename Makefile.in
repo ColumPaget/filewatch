@@ -1,6 +1,6 @@
 CC=@CC@
-OBJ=servant.o common.o users.o event.o files_db.o stats.o process.o config_file.o
-FLAGS=-g -DUSE_XATTR=1 -D_FILE_OFFSET_BITS=64 $(CFLAGS)
+OBJ=servant.o common.o users.o event.o files_db.o stats.o backup.o process.o config_file.o
+FLAGS=-g -DUSE_XATTR=1 -D_FILE_OFFSET_BITS=64 $(CFLAGS) @DEFS@
 BUNDLED_LIBS=@LIBUSEFUL_BUNDLED@
 LIBS=@LIBS@
 prefix=@prefix@
@@ -10,7 +10,7 @@ sysconfdir=@sysconfdir@
 DEFAULT_CONFIG_PATH=$(sysconfdir)/filewatch.conf
 
 all: $(OBJ) main.c $(BUNDLED_LIBS)
-	$(CC) $(FLAGS) -o filewatch main.c $(OBJ) $(LIBS) $(BUNDLED_LIBS) -DDEFAULT_CONFIG_PATH=\"$(DEFAULT_CONFIG_PATH)\"
+	$(CC) $(FLAGS) -o filewatch main.c $(OBJ) $(BUNDLED_LIBS) $(LIBS) -DDEFAULT_CONFIG_PATH=\"$(DEFAULT_CONFIG_PATH)\"
 
 files_db.o: files_db.c files_db.h
 	$(CC) $(FLAGS) -c files_db.c
@@ -27,6 +27,9 @@ process.o: process.c process.h
 stats.o: stats.c stats.h
 	$(CC) $(FLAGS) -c stats.c
 
+backup.o: backup.c backup.h
+	$(CC) $(FLAGS) -c backup.c
+
 servant.o: servant.c servant.h
 	$(CC) $(FLAGS) -c servant.c
 
@@ -36,15 +39,15 @@ common.o: common.c common.h
 config_file.o: config_file.c config_file.h
 	$(CC) $(FLAGS) -c config_file.c
 
-libUseful-4/libUseful.a: 
-	$(MAKE) -C libUseful-4
+libUseful/libUseful.a: 
+	$(MAKE) -C libUseful
 
 install:
 	mkdir -p $(DESTDIR)$(sysconfdir)
 	mkdir -p $(DESTDIR)$(bindir)
 
 clean:
-	rm -f *.o */*.o */*.so */*.a
+	rm -f *.o */*.o */*.so */*.a *.orig .*.swp
 
 test:
 	echo "no tests"

@@ -2,10 +2,11 @@
 
 void FileEventDestroy(TFileEvent *FE)
 {
-if (! FE) return;
+    if (! FE) return;
 
-Destroy(FE->Path);
-Destroy(FE->StoredPath);
-free(FE);
+    Destroy(FE->Path);
+    Destroy(FE->StoredPath);
+    Destroy(FE->TimeStr);
+    free(FE);
 }
 

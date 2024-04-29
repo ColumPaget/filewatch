@@ -53,6 +53,7 @@ kill                     If event matches then send 'SIGKILL' to the associated 
 freeze                   If event matches then send 'SIGSTOP' to the associated process, 'freezing' it.
 freeze+parent            If event matches then send 'SIGSTOP' to the associated process, 'freezing' it AND ITS PARENT.
 kill+parent              If event matches then send 'SIGKILL' to the associated process AND ITS PARENT.
+backup <path>            Copy file to the given path.
 xattr <value>            Set an extended attribute on filesystems that support this.
 xachangelast             Use an extended attribute on filesystems that support this to record who/what/when last changed a file.
 xachangelog              Use an extended attribute on filesystems that support this to support a changelog of recent changes to a file.
@@ -114,6 +115,9 @@ new          'y' if the file appears new, 'n' otherwise.
 rename       'y' if the file appears to have been renamed, 'n' otherwise.
 executable   'y' if the file is executable, 'n' otherwise.
 access       'open', 'close' or 'modify'
+when         date/time in "%Y/%m/%d %H:%M:%S" format
+isodate      date/time in "%Y-%m-%dT%H:%M:%S" format
+date         date/time in "%Y-%m-%dT%H:%M:%S" format
 ```
 
 

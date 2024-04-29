@@ -52,3 +52,5 @@ log "suspect extension $(path) $(user)@$(ip *$(prog)" path=*[Dd]ecrypt*,*[Rr]eco
 #call the 'modified' ruleset
 call modified modify
 
+#whenever a .txt file changes in /home/user/documents/, take a copy of it in /home/backups/
+backup /home/backups/$(name).$(date) modify path=/home/user/documents/*.txt
