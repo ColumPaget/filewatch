@@ -157,6 +157,12 @@ void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
                         Act->Flags |= MATCH_MODIFY;
                         EventMask |= FAN_MODIFY;
                     }
+                    else if (strcasecmp(Name, "changed")==0)
+                    {
+                        Act->Flags |= MATCH_MODIFY | MATCH_CLOSE;
+                        EventMask |= FAN_MODIFY;
+                    }
+                    else if (strcasecmp(Name, "close-write")==0) Act->Flags |= MATCH_CLOSE_WRITE;
                     else if (strcasecmp(Name, "close")==0) Act->Flags |= MATCH_CLOSE;
                     else if (strcasecmp(Name, "logfile")==0) Act->Extra=CopyStr(Act->Extra, Value);
                     else if (strcasecmp(Name, "mx")==0) Act->Extra=CopyStr(Act->Extra, Value);

@@ -8,7 +8,6 @@
 
   This is free software. It comes with no guarentees and I take no responsiblity if it makes your computer explode or opens a portal to the demon dimensions, or does anything. It is released under the Gnu Public Licence version 3.
 
-	Please note this is the initial release (v0.1) of filewatch. I'm using it, but it's not been extensively tested yet.
 
 ## USAGE
 
@@ -89,6 +88,10 @@ The 'exec' action allows a command to be run in response to a file event. It tak
 exec '/usr/bin/aplay /usr/share/sounds/warning.wav' path=/etc/hosts close
 ```
 
+### backup actions
+
+The 'backup' action makes a copy of a file. It should be used with either 'modify' or 'close'. If used with 'modify' it will be called every time 
+
 ### arguments:
 
 The 'log', 'syslog' and 'exec' actions take an argument that defines the message or defines the command to be run in the case of 'exec'. This argument can include 'variables' that are substituted with values relating to the event. For example:
@@ -135,6 +138,7 @@ new                         Match events where the file seems to have been recen
 rename                      Match events where the file seems to have been renamed.
 modify                      Match events where the file is modified.
 close                       Match events where the file is closed.
+changed                     Match events where the file is closed, and was modified.
 time=<HH:MM:SS>             Match events where the time of event matches (time can include wildcards).
 pid-per-sec=<num>           Match events where a process has opened this many files per second.
 pid-per-min=<num>           Match events where a process has opened this many files per minute.

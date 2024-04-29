@@ -99,9 +99,9 @@ int EventMatches(TFileAction *Act, TFileEvent *Event)
         if (! (Event->Flags & FAN_MODIFY)) return(FALSE);
     }
 
-    if (Act->Flags & MATCH_CLOSE)
+    if (Act->Flags & MATCH_CLOSE_WRITE)
     {
-        if (! (Event->Flags & FAN_CLOSE)) return(FALSE);
+        if (! (Event->Flags & FAN_CLOSE_WRITE)) return(FALSE);
     }
 
 
@@ -176,6 +176,7 @@ int IsRepeatEvent(TFileEvent *FE, pid_t pid, int Flags, time_t Now)
     if (pid != FE->pid) return(FALSE);
     if ((Now - FE->When) > 10) return(FALSE);
     if ( (Flags & FAN_MODIFY) && (! (FE->Flags & FLAG_MODIFY)) ) return(FALSE);
+    if ( (Flags & FAN_CLOSE) && (! (FE->Flags & FLAG_CLOSE)) ) return(FALSE);
 
     return(TRUE);
 }
@@ -296,8 +297,13 @@ void ProcessEventCommit(STREAM *ServantS, TFileEvent *FE, int Flags)
         }
         */
     }
+
     //must do this here, as 'modify' and 'close' can both be set!
-    else if (Flags & FAN_CLOSE) p_Type="close";
+    if (Flags & FAN_CLOSE) 
+    { 
+      p_Type="close";
+      if (FE->Flags & FLAG_MODIFY) p_Type="changed";
+    }
 
     if (GlobalFlags & GFLAG_DEBUG) printf("event: %s %s\n", p_Type, FE->Path);
     ProcessEventRules(ServantS, Rules, p_Type, FE);

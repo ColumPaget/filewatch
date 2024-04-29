@@ -169,6 +169,7 @@ int ServantProcess(void *Nothing, int Flags)
             case ACT_LOG:
                 Token=CopyStr(Token,GetVar(Vars,"extra"));
                 if (! StrValid(Token)) Token=CopyStr(Token, "/var/log/filewatch.log");
+                MakeDirPath(Token, 0700);
                 S=STREAMOpen(Token, "a");
                 if (S)
                 {

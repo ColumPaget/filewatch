@@ -13,12 +13,13 @@
 #endif
 
 #include <fcntl.h>
-#include <sys/fanotify.h>
+#include <linux/fanotify.h>
 
 #define VERSION "2.0"
 
-#define MATCH_MODIFY     1
-#define MATCH_CLOSE     2
+#define MATCH_MODIFY       1
+#define MATCH_CLOSE        2
+#define MATCH_CLOSE_WRITE  4
 #define OPEN_ALLOW 8
 #define OPEN_DENY  16
 #define EXEC_ALLOW 32
@@ -31,9 +32,10 @@
 
 #define FLAG_NEW 1
 #define FLAG_MODIFY 2
-#define FLAG_RENAME 4
-#define FLAG_EXECUTABLE 8
-#define FLAG_REMOTE 16
+#define FLAG_CLOSE  4
+#define FLAG_RENAME 16
+#define FLAG_REMOTE 32
+#define FLAG_EXECUTABLE 64
 #define FLAG_IGNORE 4096
 #define FLAG_PROCESSED 8192
 
