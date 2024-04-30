@@ -12,12 +12,19 @@ void FilePostProcess(const char *Path, ListNode *Vars)
     ptr=GetVar(Vars, "fileowner");
     if (StrValid(ptr))
     {
-	val=FindUserID(ptr);
-	if (val > 0) chown(Path, val, -1);
+        val=FindUserID(ptr);
+        if (val > 0) chown(Path, val, -1);
+    }
+
+    ptr=GetVar(Vars, "filegroup");
+    if (StrValid(ptr))
+    {
+        val=FindGroupID(ptr);
+        if (val > 0) chown(Path, -1, val);
     }
 
     ptr=GetVar(Vars, "filemode");
-    if (StrValid(ptr)) chmod(Path, atoi(ptr));
+    if (StrValid(ptr)) chmod(Path, strtol(ptr, NULL, 8));
 }
 
 
@@ -105,7 +112,7 @@ static void ActionLog(ListNode *Vars)
         STREAMWriteString(Tempstr, S);
         STREAMWriteLine("\n", S);
         STREAMClose(S);
-	FilePostProcess(Path, Vars);
+        FilePostProcess(Path, Vars);
     }
 
     Destroy(Tempstr);

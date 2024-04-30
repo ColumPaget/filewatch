@@ -164,15 +164,15 @@ void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
                     }
                     else if (strcasecmp(Name, "close-write")==0) Act->Flags |= MATCH_CLOSE_WRITE;
                     else if (strcasecmp(Name, "close")==0) Act->Flags |= MATCH_CLOSE;
-                    else if (strcasecmp(Name, "logfile")==0) Act->Extra=MCopyStr(Act->Extra, "logfile='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "server")==0) Act->Extra=MCopyStr(Act->Extra, "server='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "fileowner")==0) Act->Extra=MCopyStr(Act->Extra, "fileowner='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "fowner")==0) Act->Extra=MCopyStr(Act->Extra, "fileowner='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "filegroup")==0) Act->Extra=MCopyStr(Act->Extra, "filegroup='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "fgrp")==0) Act->Extra=MCopyStr(Act->Extra, "filegroup='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "filemode")==0) Act->Extra=MCopyStr(Act->Extra, "filemode='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "fmode")==0) Act->Extra=MCopyStr(Act->Extra, "filemode='", Value, "' ", NULL);
-                    else if (strcasecmp(Name, "mx")==0) Act->Extra=MCopyStr(Act->Extra, "mx='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "logfile")==0) Act->Extra=MCatStr(Act->Extra, "logfile='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "server")==0) Act->Extra=MCatStr(Act->Extra, "server='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fileowner")==0) Act->Extra=MCatStr(Act->Extra, "fileowner='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fowner")==0) Act->Extra=MCatStr(Act->Extra, "fileowner='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "filegroup")==0) Act->Extra=MCatStr(Act->Extra, "filegroup='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fgrp")==0) Act->Extra=MCatStr(Act->Extra, "filegroup='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "filemode")==0) Act->Extra=MCatStr(Act->Extra, "filemode='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fmode")==0) Act->Extra=MCatStr(Act->Extra, "filemode='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "mx")==0) Act->Extra=MCatStr(Act->Extra, "mx='", Value, "' ", NULL);
 
                     ptr=GetNameValuePair(ptr, "\\S", "=", &Name, &Value);
                 }
@@ -182,7 +182,6 @@ void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
         LineNo++;
         Line=STREAMReadLine(Line, S);
     }
-
 
     if (GlobalFlags & GFLAG_DEBUG) printf("parsed ruleset: '%s' %lu entries\n", SetName, ListSize(Rules));
 

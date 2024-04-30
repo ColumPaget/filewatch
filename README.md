@@ -2,7 +2,7 @@
 
 ## SUMMARY
 
-	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response.
+	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response. 
 
 ## DISCLAIMER
 
@@ -154,6 +154,7 @@ fileowner=<name>            Set the owner of a logfile or backup file.
 fown=<name>                 Set the owner of a logfile or backup file.
 filegroup=<name>            Set the group of a logfile or backup file.
 fgrp=<name>                 Set the owner of a logfile or backup file.
+filemode=<perms>            Set permissions of a logfile or backup file.
 fmode=<perms>               Set permissions of a logfile or backup file.
 ```
 

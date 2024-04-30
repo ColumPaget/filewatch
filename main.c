@@ -422,7 +422,7 @@ void Process()
                     else
                     */
 
-		    //ignore file opens by self or servant
+                    //ignore file opens by self or servant
                     if ((metaptr->pid != self) && (metaptr->pid != servant)) ProcessEvent(ServantS, metaptr->mask, metaptr->fd, metaptr->pid);
                     lastfd=metaptr->fd;
                 }

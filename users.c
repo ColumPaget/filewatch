@@ -1,16 +1,15 @@
 #include "users.h"
 
-ListNode *UserList=NULL;
+ListNode *UserList=NULL, *GroupList=NULL;
 
 //load list of users, so
-void LoadUserList()
+void LoadList(const char *Path, ListNode *List)
 {
     STREAM *S;
     char *Tempstr=NULL, *Name=NULL, *Token=NULL;
     const char *ptr;
 
-    if (! UserList) UserList=ListCreate();
-    S=STREAMOpen("/etc/passwd", "r");
+    S=STREAMOpen(Path, "r");
     Tempstr=STREAMReadLine(Tempstr, S);
     while (Tempstr)
     {
@@ -18,7 +17,7 @@ void LoadUserList()
         ptr=GetToken(ptr,":",&Token,0);
         //UID
         ptr=GetToken(ptr,":",&Token,0);
-        SetVar(UserList, Token, Name);
+        SetVar(List, Token, Name);
         Tempstr=STREAMReadLine(Tempstr, S);
     }
     STREAMClose(S);
@@ -26,6 +25,16 @@ void LoadUserList()
     Destroy(Tempstr);
     Destroy(Token);
     Destroy(Name);
+}
+
+
+void LoadUserList()
+{
+    if (! UserList) UserList=ListCreate();
+    LoadList("/etc/passwd", UserList);
+
+    if (! GroupList) GroupList=ListCreate();
+    LoadList("/etc/group", GroupList);
 }
 
 
@@ -46,25 +55,43 @@ const char *FindUserName(const char *UidStr)
 }
 
 
+int FindID(const char *Name, ListNode *List)
+{
+    ListNode *Curr;
+
+    Curr=ListGetNext(List);
+    while (Curr)
+    {
+        if (strcmp(Name, (char *) Curr->Item)==0) return(atoi(Curr->Tag));
+        Curr=ListGetNext(Curr);
+    }
+
+    return(-1);
+}
+
+
 int FindUserID(const char *Name)
 {
-ListNode *Curr;
+int id;
 
-Curr=ListGetNext(UserList);
-while (Curr)
-{
-if (strcmp(Name, (char *) Curr->Item)==0) return(atoi(Curr->Tag));
-Curr=ListGetNext(Curr);
-}
-
+id=FindID(Name, UserList);
 //if user not found, reload userlist and try again
 LoadUserList();
-Curr=ListGetNext(UserList);
-while (Curr)
-{
-if (strcmp(Name, (char *) Curr->Item)==0) return(atoi(Curr->Tag));
-Curr=ListGetNext(Curr);
+id=FindID(Name, UserList);
+
+return(id);
 }
 
-return(-1);
+int FindGroupID(const char *Name)
+{
+int id;
+
+id=FindID(Name, GroupList);
+//if user not found, reload userlist and try again
+LoadUserList();
+id=FindID(Name, GroupList);
+
+return(id);
 }
+
+
