@@ -154,8 +154,8 @@ fileowner=<name>            Set the owner of a logfile or backup file.
 fown=<name>                 Set the owner of a logfile or backup file.
 filegroup=<name>            Set the group of a logfile or backup file.
 fgrp=<name>                 Set the owner of a logfile or backup file.
-filemode=<perms>            Set permissions of a logfile or backup file.
-fmode=<perms>               Set permissions of a logfile or backup file.
+filemode=<perms>            Set permissions of a logfile or backup file, format of '<perms>' is numeric e.g. 660.
+fmode=<perms>               Set permissions of a logfile or backup file, format of '<perms>' is numeric e.g. 660.
 ```
 
 
