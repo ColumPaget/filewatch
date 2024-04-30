@@ -5,6 +5,7 @@
 
 void LoadUserList();
 const char *FindUserName(const char *UidStr);
+int FindUserID(const char *Name);
 
 #endif
 

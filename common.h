@@ -13,7 +13,12 @@
 #endif
 
 #include <fcntl.h>
+
+#ifdef HAVE_FANOTIFY_H
+#include <sys/fanotify.h>
+#else
 #include <linux/fanotify.h>
+#endif
 
 #define VERSION "2.0"
 

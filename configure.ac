@@ -7,7 +7,9 @@ AC_PROG_CC
 AC_LANG([C])
 AC_PROG_MAKE_SET
 AC_PROG_EGREP
+AC_CHECK_INCLUDES_DEFAULT
 AC_SYS_LARGEFILE
+AC_PROG_INSTALL 
 
 
 AC_ARG_WITH(libuseful, [  --with-libuseful		use system-wide libUseful (default=auto) ], cf_system_libuseful=$withval )
@@ -71,20 +73,15 @@ else
   AC_CONFIG_SUBDIRS([libUseful])
 fi
 
-AC_PROG_CC 
-AC_LANG([C]) 
-AC_PROG_MAKE_SET 
-AC_PROG_INSTALL 
-m4_warn([obsolete],
-[The preprocessor macro `STDC_HEADERS' is obsolete.
-  Except in unusual embedded environments, you can safely include all
-  ISO C90 headers unconditionally.])dnl
-# Autoupdate added the next two lines to ensure that your configure
-# script's behavior did not change.  They are probably safe to remove.
-AC_CHECK_INCLUDES_DEFAULT
-AC_PROG_EGREP
- 
-AC_SYS_LARGEFILE
+AC_CHECK_HEADER([sys/fanotify.h], [cf_have_fanotify="yes"], [cf_have_fanotify="no"])
+
+if test "$cf_have_fanotify" = "yes"
+then
+AC_DEFINE([HAVE_FANOTIFY_H])
+else
+echo "sys/fanotify.h header file not found. filewatch may still build, but it would be better to install this file. Perhaps apt install 'libfanotify-dev'?"
+fi
+
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

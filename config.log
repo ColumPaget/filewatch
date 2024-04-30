@@ -126,62 +126,64 @@ configure:3365: checking for grep that handles long lines and -e
 configure:3429: result: /usr/bin/grep
 configure:3434: checking for egrep
 configure:3502: result: /usr/bin/grep -E
-configure:3516: checking for special C compiler options needed for large files
-configure:3564: result: no
-configure:3570: checking for _FILE_OFFSET_BITS value needed for large files
-configure:3596: gcc -c -g -O2  conftest.c >&5
-configure:3596: $? = 0
-configure:3630: result: no
-configure:3728: checking for stdio.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for stdlib.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for string.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for inttypes.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for stdint.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for strings.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for sys/stat.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for sys/types.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3728: checking for unistd.h
-configure:3728: gcc -c -g -O2  conftest.c >&5
-configure:3728: $? = 0
-configure:3728: result: yes
-configure:3753: checking for libUseful-5/libUseful.h
-configure:3753: gcc -c -g -O2  conftest.c >&5
-configure:3753: $? = 0
-configure:3753: result: yes
-configure:3756: checking for GetToken in -lUseful-5
-configure:3779: gcc -o conftest -g -O2   conftest.c -lUseful-5   >&5
-configure:3779: $? = 0
-configure:3789: result: yes
-configure:3853: checking for EVP_CIPHER_CTX_init in -lcrypto
-configure:3876: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
-/usr/bin/ld: /tmp/cc1RQkvX.o: in function `main':
-/tmp/filewatch/conftest.c:27: undefined reference to `EVP_CIPHER_CTX_init'
+configure:3512: checking for stdio.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for stdlib.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for string.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for inttypes.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for stdint.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for strings.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for sys/stat.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for sys/types.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3512: checking for unistd.h
+configure:3512: gcc -c -g -O2  conftest.c >&5
+configure:3512: $? = 0
+configure:3512: result: yes
+configure:3545: checking for special C compiler options needed for large files
+configure:3593: result: no
+configure:3599: checking for _FILE_OFFSET_BITS value needed for large files
+configure:3625: gcc -c -g -O2  conftest.c >&5
+configure:3625: $? = 0
+configure:3659: result: no
+configure:3757: checking for a BSD-compatible install
+configure:3830: result: /usr/bin/install -c
+configure:3853: checking for libUseful-5/libUseful.h
+configure:3853: gcc -c -g -O2  conftest.c >&5
+configure:3853: $? = 0
+configure:3853: result: yes
+configure:3856: checking for GetToken in -lUseful-5
+configure:3879: gcc -o conftest -g -O2   conftest.c -lUseful-5   >&5
+configure:3879: $? = 0
+configure:3889: result: yes
+configure:3953: checking for EVP_CIPHER_CTX_init in -lcrypto
+configure:3976: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
+/usr/bin/ld: /tmp/ccEqOJpz.o: in function `main':
+/home/colum/work/filewatch/conftest.c:27: undefined reference to `EVP_CIPHER_CTX_init'
 collect2: error: ld returned 1 exit status
-configure:3876: $? = 1
+configure:3976: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -213,17 +215,17 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3886: result: no
-configure:3900: checking for EVP_CIPHER_CTX_new in -lcrypto
-configure:3923: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
-configure:3923: $? = 0
-configure:3933: result: yes
-configure:3947: checking for SSL_library_init in -lssl
-configure:3970: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
-/usr/bin/ld: /tmp/ccpGTi68.o: in function `main':
-/tmp/filewatch/conftest.c:28: undefined reference to `SSL_library_init'
+configure:3986: result: no
+configure:4000: checking for EVP_CIPHER_CTX_new in -lcrypto
+configure:4023: gcc -o conftest -g -O2   conftest.c -lcrypto   >&5
+configure:4023: $? = 0
+configure:4033: result: yes
+configure:4047: checking for SSL_library_init in -lssl
+configure:4070: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
+/usr/bin/ld: /tmp/ccMFfdjN.o: in function `main':
+/home/colum/work/filewatch/conftest.c:28: undefined reference to `SSL_library_init'
 collect2: error: ld returned 1 exit status
-configure:3970: $? = 1
+configure:4070: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -256,72 +258,22 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3980: result: no
-configure:3994: checking for OPENSSL_init_ssl in -lssl
-configure:4017: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
-configure:4017: $? = 0
-configure:4027: result: yes
-configure:4041: checking for deflate in -lz
-configure:4064: gcc -o conftest -g -O2   conftest.c -lz  -lssl -lcrypto  >&5
-configure:4064: $? = 0
-configure:4074: result: yes
-configure:4142: checking for GetToken in -lUseful-5
-configure:4175: result: yes
-configure:4250: checking for gcc
-configure:4282: result: gcc
-configure:4635: checking for C compiler version
-configure:4644: gcc --version >&5
-gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
-Copyright (C) 2021 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-configure:4655: $? = 0
-configure:4644: gcc -v >&5
-Using built-in specs.
-COLLECT_GCC=gcc
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
-OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
-OFFLOAD_TARGET_DEFAULT=1
-Target: x86_64-linux-gnu
-Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-XeT9lY/gcc-11-11.4.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=/build/gcc-11-XeT9lY/gcc-11-11.4.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
-Thread model: posix
-Supported LTO compression algorithms: zlib zstd
-gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
-... rest of stderr output deleted ...
-configure:4655: $? = 0
-configure:4644: gcc -V >&5
-gcc: error: unrecognized command-line option '-V'
-gcc: fatal error: no input files
-compilation terminated.
-configure:4655: $? = 1
-configure:4644: gcc -qversion >&5
-gcc: error: unrecognized command-line option '-qversion'; did you mean '--version'?
-gcc: fatal error: no input files
-compilation terminated.
-configure:4655: $? = 1
-configure:4644: gcc -version >&5
-gcc: error: unrecognized command-line option '-version'
-gcc: fatal error: no input files
-compilation terminated.
-configure:4655: $? = 1
-configure:4659: checking whether the compiler supports GNU C
-configure:4689: result: yes
-configure:4700: checking whether gcc accepts -g
-configure:4765: result: yes
-configure:4785: checking for gcc option to enable C11 features
-configure:4818: result: none needed
-configure:4934: checking whether make sets $(MAKE)
-configure:4957: result: yes
-configure:4982: checking for a BSD-compatible install
-configure:5055: result: /usr/bin/install -c
-configure:5069: checking for egrep
-configure:5137: result: /usr/bin/grep -E
-configure:5151: checking for special C compiler options needed for large files
-configure:5199: result: no
-configure:5205: checking for _FILE_OFFSET_BITS value needed for large files
-configure:5265: result: no
-configure:5492: creating ./config.status
+configure:4080: result: no
+configure:4094: checking for OPENSSL_init_ssl in -lssl
+configure:4117: gcc -o conftest -g -O2   conftest.c -lssl  -lcrypto  >&5
+configure:4117: $? = 0
+configure:4127: result: yes
+configure:4141: checking for deflate in -lz
+configure:4164: gcc -o conftest -g -O2   conftest.c -lz  -lssl -lcrypto  >&5
+configure:4164: $? = 0
+configure:4174: result: yes
+configure:4242: checking for GetToken in -lUseful-5
+configure:4275: result: yes
+configure:4297: checking for sys/fanotify.h
+configure:4297: gcc -c -g -O2  conftest.c >&5
+configure:4297: $? = 0
+configure:4297: result: yes
+configure:4459: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -368,6 +320,7 @@ ac_cv_header_stdio_h=yes
 ac_cv_header_stdlib_h=yes
 ac_cv_header_string_h=yes
 ac_cv_header_strings_h=yes
+ac_cv_header_sys_fanotify_h=yes
 ac_cv_header_sys_stat_h=yes
 ac_cv_header_sys_types_h=yes
 ac_cv_header_unistd_h=yes
@@ -396,7 +349,7 @@ ac_cv_sys_largefile_CC=no
 CC='gcc'
 CFLAGS='-g -O2'
 CPPFLAGS=''
-DEFS='-DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DHAVE_STDIO_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRINGS_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_UNISTD_H=1 -DSTDC_HEADERS=1 -DHAVE_LIBCRYPTO=1 -DHAVE_LIBSSL=1 -DHAVE_LIBZ=1 -DHAVE_LIBUSEFUL_5=1'
+DEFS='-DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DHAVE_STDIO_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRINGS_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_UNISTD_H=1 -DSTDC_HEADERS=1 -DHAVE_LIBCRYPTO=1 -DHAVE_LIBSSL=1 -DHAVE_LIBZ=1 -DHAVE_LIBUSEFUL_5=1 -DHAVE_FANOTIFY_H=1'
 ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''
@@ -475,5 +428,6 @@ target_alias=''
 #define HAVE_LIBSSL 1
 #define HAVE_LIBZ 1
 #define HAVE_LIBUSEFUL_5 1
+#define HAVE_FANOTIFY_H 1
 
 configure: exit 0

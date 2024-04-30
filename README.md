@@ -2,7 +2,7 @@
 
 ## SUMMARY
 
-	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response. 
+	Filewatch is a utility that uses fanotify to watch file open/close/modify events. It can output these events to the terminal or trigger a number of 'actions' in response.
 
 ## DISCLAIMER
 
@@ -11,7 +11,7 @@
 
 ## USAGE
 
-	Filewatch is configured via a combination of configuration file and command-line options.
+	Filewatch must be run as root to have permissions for fanotify. is configured via a combination of configuration file and command-line options.
 
 ## INVOCATION
 
@@ -149,8 +149,12 @@ user-per-hour=<num>         Match events where a user has opened this many files
 ip-per-sec=<num>            Match events where an ip address has opened this many files per second.
 ip-per-min=<num>            Match events where an ip address has opened this many files per minute.
 ip-per-hour=<num>           Match events where an ip address has opened this many files per hour.
-
 logfile=<path>              Set logfile path to write to.
+fileowner=<name>            Set the owner of a logfile or backup file.
+fown=<name>                 Set the owner of a logfile or backup file.
+filegroup=<name>            Set the group of a logfile or backup file.
+fgrp=<name>                 Set the owner of a logfile or backup file.
+fmode=<perms>               Set permissions of a logfile or backup file.
 ```
 
 

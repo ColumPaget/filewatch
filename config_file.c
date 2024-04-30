@@ -3,7 +3,7 @@
 
 time_t ParseFileAge(const char *Value)
 {
-    const char *ptr;
+    char *ptr;
     long val;
 
     val=strtol(Value, &ptr, 10);
@@ -118,11 +118,11 @@ void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
                 }
 
 
-		if (StrValid(Act->ActionArg) && (strchr(Act->ActionArg, '=')))
-		{
-			fprintf(stderr, "WARNING: '=' character found in argument to action in line:\n");
-			fprintf(stderr, "%d: %s\n", LineNo, Line);
-		}
+                if (StrValid(Act->ActionArg) && (strchr(Act->ActionArg, '=')))
+                {
+                    fprintf(stderr, "WARNING: '=' character found in argument to action in line:\n");
+                    fprintf(stderr, "%d: %s\n", LineNo, Line);
+                }
 
 
                 //parse arguments of an action.
@@ -164,21 +164,27 @@ void ParseRuleset(STREAM *S, const char *SetName, ListNode *Rules)
                     }
                     else if (strcasecmp(Name, "close-write")==0) Act->Flags |= MATCH_CLOSE_WRITE;
                     else if (strcasecmp(Name, "close")==0) Act->Flags |= MATCH_CLOSE;
-                    else if (strcasecmp(Name, "logfile")==0) Act->Extra=CopyStr(Act->Extra, Value);
-                    else if (strcasecmp(Name, "mx")==0) Act->Extra=CopyStr(Act->Extra, Value);
-                    else if (strcasecmp(Name, "server")==0) Act->Extra=CopyStr(Act->Extra, Value);
+                    else if (strcasecmp(Name, "logfile")==0) Act->Extra=MCopyStr(Act->Extra, "logfile='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "server")==0) Act->Extra=MCopyStr(Act->Extra, "server='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fileowner")==0) Act->Extra=MCopyStr(Act->Extra, "fileowner='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fowner")==0) Act->Extra=MCopyStr(Act->Extra, "fileowner='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "filegroup")==0) Act->Extra=MCopyStr(Act->Extra, "filegroup='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fgrp")==0) Act->Extra=MCopyStr(Act->Extra, "filegroup='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "filemode")==0) Act->Extra=MCopyStr(Act->Extra, "filemode='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "fmode")==0) Act->Extra=MCopyStr(Act->Extra, "filemode='", Value, "' ", NULL);
+                    else if (strcasecmp(Name, "mx")==0) Act->Extra=MCopyStr(Act->Extra, "mx='", Value, "' ", NULL);
 
                     ptr=GetNameValuePair(ptr, "\\S", "=", &Name, &Value);
                 }
             }
         }
 
-	LineNo++;
+        LineNo++;
         Line=STREAMReadLine(Line, S);
     }
 
 
-    if (GlobalFlags & GFLAG_DEBUG) printf("parsed ruleset: '%s' %d entries\n", SetName, ListSize(Rules));
+    if (GlobalFlags & GFLAG_DEBUG) printf("parsed ruleset: '%s' %lu entries\n", SetName, ListSize(Rules));
 
     Destroy(Tempstr);
     Destroy(Line);
@@ -231,7 +237,7 @@ static void ConfigCheckValid(ListNode *Rules)
     Curr=ListGetNext(RuleChains);
     while (Curr)
     {
-        if (! ListFindNamedItem(CalledRuleChains, Curr->Tag)) printf("WARNING: ruleset '%s' exists but is never called\n");
+        if (! ListFindNamedItem(CalledRuleChains, Curr->Tag)) printf("WARNING: ruleset '%s' exists but is never called\n", Curr->Tag);
         Curr=ListGetNext(Curr);
     }
 

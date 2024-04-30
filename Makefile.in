@@ -1,5 +1,5 @@
 CC=@CC@
-OBJ=servant.o common.o users.o event.o files_db.o stats.o backup.o process.o config_file.o
+OBJ=servant.o common.o users.o event.o files_db.o stats.o backup.o process.o actions.o config_file.o
 FLAGS=-g -DUSE_XATTR=1 -D_FILE_OFFSET_BITS=64 $(CFLAGS) @DEFS@
 BUNDLED_LIBS=@LIBUSEFUL_BUNDLED@
 LIBS=@LIBS@
@@ -29,6 +29,9 @@ stats.o: stats.c stats.h
 
 backup.o: backup.c backup.h
 	$(CC) $(FLAGS) -c backup.c
+
+actions.o: actions.c actions.h
+	$(CC) $(FLAGS) -c actions.c
 
 servant.o: servant.c servant.h
 	$(CC) $(FLAGS) -c servant.c

@@ -159,7 +159,7 @@ char *FormatSendArgs(char *RetStr, TFileAction *Act, const char *Access, TFileEv
     if (FE->Flags & FLAG_REMOTE) RetStr=CatStr(RetStr, " remote=y");
     if (FE->Flags & FLAG_EXECUTABLE) RetStr=CatStr(RetStr, " executable=y");
     if (FE->Flags & FLAG_RENAME) RetStr=MCatStr(RetStr, " rename='", FE->StoredPath,"'", NULL);
-    if (Act && StrValid(Act->Extra)) RetStr=MCatStr(RetStr, " extra='", Act->Extra,"'", NULL);
+    if (Act && StrValid(Act->Extra)) RetStr=MCatStr(RetStr, " ", Act->Extra, NULL);
 
     if (GlobalFlags & GFLAG_DEBUG) printf("to servant: %s\n", RetStr);
     RetStr=CatStr(RetStr, "\n");
@@ -299,10 +299,10 @@ void ProcessEventCommit(STREAM *ServantS, TFileEvent *FE, int Flags)
     }
 
     //must do this here, as 'modify' and 'close' can both be set!
-    if (Flags & FAN_CLOSE) 
-    { 
-      p_Type="close";
-      if (FE->Flags & FLAG_MODIFY) p_Type="changed";
+    if (Flags & FAN_CLOSE)
+    {
+        p_Type="close";
+        if (FE->Flags & FLAG_MODIFY) p_Type="changed";
     }
 
     if (GlobalFlags & GFLAG_DEBUG) printf("event: %s %s\n", p_Type, FE->Path);
@@ -422,6 +422,7 @@ void Process()
                     else
                     */
 
+		    //ignore file opens by self or servant
                     if ((metaptr->pid != self) && (metaptr->pid != servant)) ProcessEvent(ServantS, metaptr->mask, metaptr->fd, metaptr->pid);
                     lastfd=metaptr->fd;
                 }

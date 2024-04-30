@@ -1,5 +1,5 @@
 #include "backup.h"
-
+#include "actions.h"
 
 void BackupFile(ListNode *Vars)
 {
@@ -15,7 +15,7 @@ void BackupFile(ListNode *Vars)
     {
         BackupPath=SubstituteVarsInString(BackupPath, GetVar(Vars, "ActionArg"), Vars, 0);
 
-	//if path starts with / it's an absolute path, otherwise it's relative
+        //if path starts with / it's an absolute path, otherwise it's relative
         //and we need to handle that here
         if (*BackupPath != '/')
         {
@@ -25,8 +25,9 @@ void BackupFile(ListNode *Vars)
             BackupPath=CopyStr(BackupPath, Tempstr);
         }
 
-	MakeDirPath(BackupPath, 0700);
+        MakeDirPath(BackupPath, 0700);
         FileCopy(Path, BackupPath);
+	FilePostProcess(BackupPath, Vars);
     }
 
     Destroy(BackupPath);

@@ -2,6 +2,7 @@
 
 ListNode *UserList=NULL;
 
+//load list of users, so
 void LoadUserList()
 {
     STREAM *S;
@@ -27,6 +28,8 @@ void LoadUserList()
     Destroy(Name);
 }
 
+
+//find user name for a given uid
 const char *FindUserName(const char *UidStr)
 {
     ListNode *Node;
@@ -34,6 +37,34 @@ const char *FindUserName(const char *UidStr)
     Node=ListFindNamedItem(UserList, UidStr);
     if (Node) return((const char *) Node->Item);
 
+    //if user not found, reload userlist and try again
+    LoadUserList();
+    Node=ListFindNamedItem(UserList, UidStr);
+    if (Node) return((const char *) Node->Item);
+
     return(NULL);
 }
 
+
+int FindUserID(const char *Name)
+{
+ListNode *Curr;
+
+Curr=ListGetNext(UserList);
+while (Curr)
+{
+if (strcmp(Name, (char *) Curr->Item)==0) return(atoi(Curr->Tag));
+Curr=ListGetNext(Curr);
+}
+
+//if user not found, reload userlist and try again
+LoadUserList();
+Curr=ListGetNext(UserList);
+while (Curr)
+{
+if (strcmp(Name, (char *) Curr->Item)==0) return(atoi(Curr->Tag));
+Curr=ListGetNext(Curr);
+}
+
+return(-1);
+}
